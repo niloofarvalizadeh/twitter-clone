@@ -41,7 +41,7 @@ function Sidebar() {
 
           <li className='custom-li'></li>
           <li>
-            <button className='bg-Primary-Blue tweet-btn rounded-full text-white font-bold py-2 px-4'>
+            <button className='tweet-btn post-btn'>
               Post
             </button>
           </li>

@@ -10,49 +10,76 @@ import Profile from './pages/Profile';
 import './style/main.css';
 import './App.css';
 import Sidebar from './component/Sidebar';
+import Feed from './component/Feed';
+import { useState } from 'react';
+import Tweet from './component/Tweet';
+import Tweetbox from './component/Tweetbox';
+
+// function App() {
+
+//   const location = useLocation();
+
+//   const noShowSidebar = [
+//     '/home',
+//     '/explore',
+//     '/notification',
+//     '/messages',
+//     '/lists',
+//     '/profile',
+//     '/bookmarks'
+//   ];
+
+//   return (
+
+//     <div>
+
+//      {!noShowSidebar.includes(location.pathname) && <Sidebar />}
+ 
+//         <Routes>
+//           <Route path="/home" element={<Home />} />
+//           <Route path="/explore" element= {<Explore />} />
+//           <Route path="/notification" element= {<Notification />} />
+//           <Route path="/messages" element= {<Messages />} />
+//           <Route path="/lists" element= {<Lists />} />
+//           <Route path="/profile" element= {<Profile />} />
+//           <Route path="/bookmarks" element= {<Bookmarks />} />
+//         </Routes>
+//         <Feed />
+
+//     </div>
+//   );
+// }
+// function AppWrapper() {
+//   return (
+//     <Router>
+//       <App />
+//     </Router>
+//   );
+// }
+
+// export default AppWrapper;
 
 function App() {
 
-  const location = useLocation();
-
-  const noShowSidebar = [
-    '/home',
-    '/explore',
-    '/notification',
-    '/messages',
-    '/lists',
-    '/profile',
-    '/bookmarks'
-  ];
-
+  const [currentComponent, setCurrentComponent] = useState('Tweetbox'); 
   return (
-
     <div>
+      {currentComponent === 'Feed' && <Feed />}
+      {currentComponent === 'Sidebar' && <Sidebar />}
+      {currentComponent === 'Home' && <Home />}
+      {currentComponent === 'Explore' && <Explore />}
+      {currentComponent === 'Notification' && <Notification />}
+      {currentComponent === 'Messages' && <Messages />}
+      {currentComponent === 'Bookmarks' && <Bookmarks />}
+      {currentComponent === 'Lists' && <Lists />}
+      {currentComponent === 'Profile' && <Profile />}
+      {currentComponent === 'Tweetbox' && <Tweetbox />}
 
-     {!noShowSidebar.includes(location.pathname) && <Sidebar />}
 
-        <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/explore" element= {<Explore />} />
-          <Route path="/notification" element= {<Notification />} />
-          <Route path="/messages" element= {<Messages />} />
-          <Route path="/lists" element= {<Lists />} />
-          <Route path="/profile" element= {<Profile />} />
-          <Route path="/bookmarks" element= {<Bookmarks />} />
-
-     
-        </Routes>
-
+    
+      
     </div>
   );
 }
-function AppWrapper() {
-  return (
-    <Router>
-      <App />
-    </Router>
-  );
-}
 
-export default AppWrapper;
-
+export default App;
