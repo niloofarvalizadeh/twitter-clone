@@ -14,6 +14,7 @@ import Feed from './component/Feed';
 import { useState } from 'react';
 import Tweet from './component/Tweet';
 import Tweetbox from './component/Tweetbox';
+import TweetActions from './component/TweetActions';
 
 
 // function App() {
@@ -62,7 +63,7 @@ import Tweetbox from './component/Tweetbox';
 
 function App() {
 
-  const [currentComponent, setCurrentComponent] = useState('UserProfile'); 
+  const [currentComponent, setCurrentComponent] = useState('Tweet'); 
   return (
     <div>
       {currentComponent === 'Feed' && <Feed />}
@@ -76,6 +77,8 @@ function App() {
       {/* {currentComponent === 'Profile' && <Profile />} */}
       {currentComponent === 'Tweetbox' && <Tweetbox />}
       {currentComponent === 'UserProfile' && <UserProfile />}
+      {currentComponent === 'Tweet' && <Tweet />}
+      {currentComponent === 'TweetActions' && <TweetActions />}
 
 
 
