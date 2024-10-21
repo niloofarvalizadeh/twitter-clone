@@ -6,7 +6,7 @@ import Notification from './pages/Notification';
 import Messages from './pages/Messages';
 import Bookmarks from './pages/Bookmarks';
 import Lists from './pages/Lists';
-import Profile from './pages/Profile';
+import UserProfile from './component/Profile/UserProfile';
 import './style/main.css';
 import './App.css';
 import Sidebar from './component/Sidebar';
@@ -14,6 +14,7 @@ import Feed from './component/Feed';
 import { useState } from 'react';
 import Tweet from './component/Tweet';
 import Tweetbox from './component/Tweetbox';
+
 
 // function App() {
 
@@ -61,7 +62,7 @@ import Tweetbox from './component/Tweetbox';
 
 function App() {
 
-  const [currentComponent, setCurrentComponent] = useState('Tweetbox'); 
+  const [currentComponent, setCurrentComponent] = useState('UserProfile'); 
   return (
     <div>
       {currentComponent === 'Feed' && <Feed />}
@@ -72,8 +73,10 @@ function App() {
       {currentComponent === 'Messages' && <Messages />}
       {currentComponent === 'Bookmarks' && <Bookmarks />}
       {currentComponent === 'Lists' && <Lists />}
-      {currentComponent === 'Profile' && <Profile />}
+      {/* {currentComponent === 'Profile' && <Profile />} */}
       {currentComponent === 'Tweetbox' && <Tweetbox />}
+      {currentComponent === 'UserProfile' && <UserProfile />}
+
 
 
     

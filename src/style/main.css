@@ -71,3 +71,13 @@
 .post-btn:focus {
     outline: none
 }
+
+/* .profile-info{
+margin-top: 80px;
+padding: 20px;
+} */
+
+.profile-stats{
+    display: flex;
+    justify-content: space-between;
+}
