@@ -16,6 +16,7 @@ import Tweet from './component/Tweet';
 import Tweetbox from './component/Tweetbox';
 import TweetActions from './component/TweetActions';
 import SearchBar from './component/SearchBar';
+import News from './component/News';
 
 
 // function App() {
@@ -64,7 +65,7 @@ import SearchBar from './component/SearchBar';
 
 function App() {
 
-  const [currentComponent, setCurrentComponent] = useState('SearchBar'); 
+  const [currentComponent, setCurrentComponent] = useState('News'); 
   return (
     <div>
       {currentComponent === 'Feed' && <Feed />}
@@ -81,9 +82,7 @@ function App() {
       {currentComponent === 'Tweet' && <Tweet />}
       {currentComponent === 'TweetActions' && <TweetActions />}
       {currentComponent === 'SearchBar' && <SearchBar />}
-
-
-
+      {currentComponent === 'News' && <News />}
     
       
     </div>
