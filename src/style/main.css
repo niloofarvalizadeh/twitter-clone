@@ -72,12 +72,6 @@
     outline: none
 }
 
-.search-field{
-    display: block;
-    width: '100%';
-    padding: '16px';
-
-}
 
 .profile-stats{
     display: flex;

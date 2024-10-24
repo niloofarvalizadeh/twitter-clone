@@ -17,6 +17,7 @@ import Tweetbox from './component/Tweetbox';
 import TweetActions from './component/TweetActions';
 import SearchBar from './component/SearchBar';
 import News from './component/News';
+import WhoToFollow from './component/WhoToFollow';
 
 
 // function App() {
@@ -65,7 +66,7 @@ import News from './component/News';
 
 function App() {
 
-  const [currentComponent, setCurrentComponent] = useState('News'); 
+  const [currentComponent, setCurrentComponent] = useState('WhoToFollow'); 
   return (
     <div>
       {currentComponent === 'Feed' && <Feed />}
@@ -83,6 +84,8 @@ function App() {
       {currentComponent === 'TweetActions' && <TweetActions />}
       {currentComponent === 'SearchBar' && <SearchBar />}
       {currentComponent === 'News' && <News />}
+      {currentComponent === 'WhoToFollow' && <WhoToFollow/>}
+
     
       
     </div>
