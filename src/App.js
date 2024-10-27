@@ -11,13 +11,15 @@ import './style/main.css';
 import './App.css';
 import Sidebar from './component/Sidebar';
 import Feed from './component/Feed';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Tweet from './component/Tweet';
 import Tweetbox from './component/Tweetbox';
 import TweetActions from './component/TweetActions';
 import SearchBar from './component/SearchBar';
 import News from './component/News';
 import WhoToFollow from './component/WhoToFollow';
+import { cleanup } from '@testing-library/react';
+import Splash from './component/Splash';
 
 
 // function App() {
@@ -39,7 +41,7 @@ import WhoToFollow from './component/WhoToFollow';
 //     <div>
 
 //      {!noShowSidebar.includes(location.pathname) && <Sidebar />}
- 
+
 //         <Routes>
 //           <Route path="/home" element={<Home />} />
 //           <Route path="/explore" element= {<Explore />} />
@@ -64,32 +66,74 @@ import WhoToFollow from './component/WhoToFollow';
 
 // export default AppWrapper;
 
+// function App() {
+
+//   const [currentComponent, setCurrentComponent] = useState('WhoToFollow'); 
+//   return (
+//     <div>
+//       {currentComponent === 'Feed' && <Feed />}
+//       {currentComponent === 'Sidebar' && <Sidebar />}
+//       {currentComponent === 'Home' && <Home />}
+//       {currentComponent === 'Explore' && <Explore />}
+//       {currentComponent === 'Notification' && <Notification />}
+//       {currentComponent === 'Messages' && <Messages />}
+//       {currentComponent === 'Bookmarks' && <Bookmarks />}
+//       {currentComponent === 'Lists' && <Lists />}
+//       {/* {currentComponent === 'Profile' && <Profile />} */}
+//       {currentComponent === 'Tweetbox' && <Tweetbox />}
+//       {currentComponent === 'UserProfile' && <UserProfile />}
+//       {currentComponent === 'Tweet' && <Tweet />}
+//       {currentComponent === 'TweetActions' && <TweetActions />}
+//       {currentComponent === 'SearchBar' && <SearchBar />}
+//       {currentComponent === 'News' && <News />}
+//       {currentComponent === 'WhoToFollow' && <WhoToFollow/>}
+
+
+
+//     </div>
+//   );
+// }
+
+
+
+
+
 function App() {
+   
+  // useState is true to show the Splash screen to the user at the beginning
+  const [isSplashVisible, setIsSplashVisible] = useState(true);
 
-  const [currentComponent, setCurrentComponent] = useState('WhoToFollow'); 
+  useEffect( () => {
+  
+    const timer = setTimeout ( () => {
+
+      setIsSplashVisible(false);
+
+    }, 3000 );
+
+    return () => cleanup(timer);
+
+  }, []);
+
+
+
   return (
-    <div>
-      {currentComponent === 'Feed' && <Feed />}
-      {currentComponent === 'Sidebar' && <Sidebar />}
-      {currentComponent === 'Home' && <Home />}
-      {currentComponent === 'Explore' && <Explore />}
-      {currentComponent === 'Notification' && <Notification />}
-      {currentComponent === 'Messages' && <Messages />}
-      {currentComponent === 'Bookmarks' && <Bookmarks />}
-      {currentComponent === 'Lists' && <Lists />}
-      {/* {currentComponent === 'Profile' && <Profile />} */}
-      {currentComponent === 'Tweetbox' && <Tweetbox />}
-      {currentComponent === 'UserProfile' && <UserProfile />}
-      {currentComponent === 'Tweet' && <Tweet />}
-      {currentComponent === 'TweetActions' && <TweetActions />}
-      {currentComponent === 'SearchBar' && <SearchBar />}
-      {currentComponent === 'News' && <News />}
-      {currentComponent === 'WhoToFollow' && <WhoToFollow/>}
 
-    
-      
-    </div>
+    <Router>
+      <div>
+
+        {isSplashVisible ? ( <Splash /> ) : ( 
+          <div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/explore" element={<Explore />} />
+        </Routes>
+      </div>
+      )}
+      </div>
+    </Router>
   );
-}
+        }
+
 
 export default App;
