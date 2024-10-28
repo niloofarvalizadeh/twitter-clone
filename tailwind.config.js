@@ -10,6 +10,7 @@ module.exports = {
     },
       fontFamily: {
      sans: ['"SF Compact Display"', 'sans-serif'],
+     
       },
       colors: {
         Black: '#0F1419',

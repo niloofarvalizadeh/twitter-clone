@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@font-face {
+    font-family: 'Chirp';
+    src: url('./fonts/Chirp-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+
 .custom-li {
     @apply w-fit h-10;
     font-size: 19px;
@@ -45,11 +55,12 @@
 
 .post-btn {
     background-color: #1DA1F2;
-    border-radius: 25px;;
+    border-radius: 25px;
+    ;
     font-weight: bold;
     padding-left: 10px;
     padding-right: 10px;
-    padding-top: 8px ;
+    padding-top: 8px;
     padding-bottom: 8px;
     height: 39px;
     width: 77px;
@@ -73,7 +84,11 @@
 }
 
 
-.profile-stats{
+.profile-stats {
     display: flex;
     justify-content: space-between;
+}
+
+.font-chirp {
+    font-family: 'Chirp', sans-serif;
 }

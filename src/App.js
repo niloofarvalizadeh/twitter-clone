@@ -109,7 +109,7 @@ function App() {
 
       setIsSplashVisible(false);
 
-    }, 3000 );
+    }, 3000  );
 
     return () => cleanup(timer);
 
