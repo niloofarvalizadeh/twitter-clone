@@ -30,9 +30,10 @@ const News = () => {
   ];
 
   return (
-    <div className='h-[457px] w-[350px]'>
+  
+    <div className='h-[457px] w-[350px] '>
       {/* header */}
-      <Card sx={{ borderRadius: '15px', mb: 2, backgroundColor: '#EBEEF0' }}>
+      <Card sx={{ borderRadius: '15px', backgroundColor: '#F7F9FA' }} elevation={0}>
         <Typography sx={{ p: 2, fontWeight: 700, fontSize: '20px', height: '48px' }}>
           What's happening
         </Typography>
@@ -71,6 +72,7 @@ const News = () => {
           <Button sx={{ color: '#1DA1F2' }}>Show more</Button>
         </Box>
       </Card>
+
     </div>
   );
 };

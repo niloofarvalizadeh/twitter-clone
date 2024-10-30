@@ -15,7 +15,7 @@
 .custom-li {
     @apply w-fit h-10;
     font-size: 19px;
-    margin: 10px;
+    margin: 7px;
     font-weight: bold;
     font-family: sans-serif;
     display: flex;
@@ -51,6 +51,8 @@
     display: inline-flex;
     flex-direction: column;
     align-items: start;
+    background-color: white;
+    height: 800px;
 }
 
 .post-btn {
@@ -91,4 +93,39 @@
 
 .font-chirp {
     font-family: 'Chirp', sans-serif;
+}
+
+.body {
+    width: auto;
+    height: fit-content;
+    background-color: white;
+    grid-template-columns: 23% 46% 31%;
+    display: grid;
+    grid-template-rows: 1fr;
+   
+
+}
+
+input::placeholder {
+    font-size: 16px;
+    color: black;
+}
+
+.section-1 {
+    background-color: white;
+}
+
+.section-2 {
+    background-color: white;
+    
+}
+
+.section-3 {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 0;
+    border-left: 1px solid #EBEEF0;
+    
 }

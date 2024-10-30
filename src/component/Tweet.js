@@ -16,6 +16,7 @@ const Tweet = () => {
 
                 <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                     {/* User Info */}
+                    
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <Typography variant="subtitle1" component="div" fontWeight="bold" sx={{ marginRight: '8px' }}>
                             Niloofar Valizadeh

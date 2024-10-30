@@ -18,13 +18,15 @@ const WhoToFollow = () => {
   };
 
   return (
+
     <Box
       sx={{
         width: '350px',
+        height: 'fit-content',
         borderRadius: 2,
         backgroundColor: '#F7F9FA',
         paddingX: 2,
-        boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
+        marginbottom: '200px'
       }}
     >
       <Box
@@ -93,6 +95,7 @@ const WhoToFollow = () => {
         </Typography>
       </Box>
     </Box>
+
   );
 };
 

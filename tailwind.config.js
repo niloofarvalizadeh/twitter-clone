@@ -23,6 +23,7 @@ module.exports = {
         Dark7: '#EBEEF0',
         Dark8: '#F7F9FA',
         'Primary-Blue': '#1DA1F2',
+        'custom-blue-hover': '#1875D0',
         
       }
     },

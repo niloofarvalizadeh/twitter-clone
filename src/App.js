@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import Home from './component/Home';
+import Signin from './component/Signin';
 import Header from './component/Header';
 import Explore from './pages/Explore';
 import Notification from './pages/Notification';
@@ -14,85 +14,13 @@ import Feed from './component/Feed';
 import { useState, useEffect } from 'react';
 import Tweet from './component/Tweet';
 import Tweetbox from './component/Tweetbox';
-import TweetActions from './component/TweetActions';
 import SearchBar from './component/SearchBar';
 import News from './component/News';
 import WhoToFollow from './component/WhoToFollow';
 import { cleanup } from '@testing-library/react';
 import Splash from './component/Splash';
-
-
-// function App() {
-
-//   const location = useLocation();
-
-//   const noShowSidebar = [
-//     '/home',
-//     '/explore',
-//     '/notification',
-//     '/messages',
-//     '/lists',
-//     '/profile',
-//     '/bookmarks'
-//   ];
-
-//   return (
-
-//     <div>
-
-//      {!noShowSidebar.includes(location.pathname) && <Sidebar />}
-
-//         <Routes>
-//           <Route path="/home" element={<Home />} />
-//           <Route path="/explore" element= {<Explore />} />
-//           <Route path="/notification" element= {<Notification />} />
-//           <Route path="/messages" element= {<Messages />} />
-//           <Route path="/lists" element= {<Lists />} />
-//           <Route path="/profile" element= {<Profile />} />
-//           <Route path="/bookmarks" element= {<Bookmarks />} />
-//         </Routes>
-//         <Feed />
-
-//     </div>
-//   );
-// }
-// function AppWrapper() {
-//   return (
-//     <Router>
-//       <App />
-//     </Router>
-//   );
-// }
-
-// export default AppWrapper;
-
-// function App() {
-
-//   const [currentComponent, setCurrentComponent] = useState('WhoToFollow'); 
-//   return (
-//     <div>
-//       {currentComponent === 'Feed' && <Feed />}
-//       {currentComponent === 'Sidebar' && <Sidebar />}
-//       {currentComponent === 'Home' && <Home />}
-//       {currentComponent === 'Explore' && <Explore />}
-//       {currentComponent === 'Notification' && <Notification />}
-//       {currentComponent === 'Messages' && <Messages />}
-//       {currentComponent === 'Bookmarks' && <Bookmarks />}
-//       {currentComponent === 'Lists' && <Lists />}
-//       {/* {currentComponent === 'Profile' && <Profile />} */}
-//       {currentComponent === 'Tweetbox' && <Tweetbox />}
-//       {currentComponent === 'UserProfile' && <UserProfile />}
-//       {currentComponent === 'Tweet' && <Tweet />}
-//       {currentComponent === 'TweetActions' && <TweetActions />}
-//       {currentComponent === 'SearchBar' && <SearchBar />}
-//       {currentComponent === 'News' && <News />}
-//       {currentComponent === 'WhoToFollow' && <WhoToFollow/>}
-
-
-
-//     </div>
-//   );
-// }
+import Home from './component/Home';
+import PostBtn from './component/Post-btn';
 
 
 
@@ -101,6 +29,7 @@ import Splash from './component/Splash';
 function App() {
    
   // useState is true to show the Splash screen to the user at the beginning
+
   const [isSplashVisible, setIsSplashVisible] = useState(true);
 
   useEffect( () => {
@@ -114,7 +43,6 @@ function App() {
     return () => cleanup(timer);
 
   }, []);
-
 
 
   return (
