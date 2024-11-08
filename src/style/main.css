@@ -102,7 +102,6 @@
     grid-template-columns: 23% 46% 31%;
     display: grid;
     grid-template-rows: 1fr;
-   
 
 }
 
@@ -117,7 +116,7 @@ input::placeholder {
 
 .section-2 {
     background-color: white;
-    
+
 }
 
 .section-3 {
@@ -127,5 +126,14 @@ input::placeholder {
     gap: 15px;
     margin: 0;
     border-left: 1px solid #EBEEF0;
-    
+
+}
+
+.custom-input {
+    border-radius: 0.375rem;
+}
+
+.required::after {
+    content: " *";
+    color: red;
 }

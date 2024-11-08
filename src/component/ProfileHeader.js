@@ -1,14 +1,13 @@
 import React, { useState, useRef } from "react";
-import { Button, colors } from '@mui/material';
-import { CameraAltOutlined } from "@mui/icons-material";
-import { LocationCityOutlined } from "@mui/icons-material";
-import { CalendarMonthOutlined } from "@mui/icons-material";
+import { CameraAltOutlined, LocationCityOutlined, CalendarMonthOutlined } from "@mui/icons-material";
+import { Button } from "@mui/material";
+
 
 const ProfileHeader = () => {
+    
     const [backgroundImage, setBackgroundImage] = useState(null);
     const fileInputRef = useRef(null);
     const profileInputRef = useRef(null);
-
     const [profileImage, setProfileImage] = useState(null);
 
     // Upload header
@@ -44,6 +43,7 @@ const ProfileHeader = () => {
     };
 
     return (
+
         <div className="relative h-[410px] w-[598px]">
             <div onClick={handleDivClick} className="h-[200px] w-full bg-Dark7 flex justify-center items-center">
                 {backgroundImage ? (

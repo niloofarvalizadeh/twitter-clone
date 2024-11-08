@@ -1,14 +1,14 @@
-import React from "react";
-import { ImageSearchOutlined } from "@mui/icons-material";
-import { GifBoxOutlined } from "@mui/icons-material";
-import { PollOutlined } from "@mui/icons-material";
-import { EmojiEmotionsOutlined } from "@mui/icons-material";
-import { ScheduleSendOutlined } from "@mui/icons-material";
-import { TextField } from "@mui/material";
-import Avatar from '@mui/material/Avatar';
+import React, { useState } from "react";  // اضافه کردن useState
+import {
+  ImageSearchOutlined,
+  GifBoxOutlined,
+  PollOutlined,
+  EmojiEmotionsOutlined,
+} from "@mui/icons-material";
+import { TextField, Avatar, Box, IconButton } from "@mui/material";
 import PostBtn from "./Post-btn";
 
-function Tweetbox() {
+function Tweetbox({ onPost }) {
   const icons = [
     ImageSearchOutlined,
     GifBoxOutlined,
@@ -16,34 +16,35 @@ function Tweetbox() {
     EmojiEmotionsOutlined,
   ];
 
-  return (
-    <div className=" w-full h-[118px] p-4 mr-0 flex items-start  border-b-2 bg-white">
-      <Avatar alt="User Avatar" src="/static/images/avatar/1.jpg" className="mr-4" />
+  const [content, setContent] = useState("");
 
-      <div className="w-full">
+  const handlePost = () => {
+    if (content.trim()) {
+      onPost(content);
+      setContent("");
+    }
+  };
+
+  return (
+    <Box sx={{ width: "100%", padding: 2, display: "flex", bgcolor: "white" }}>
+      <Avatar sx={{ marginRight: 2 }} />
+      <Box sx={{ width: "100%" }}>
         <TextField
           variant="standard"
           placeholder="What's happening?"
+          fullWidth
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
           InputProps={{
             disableUnderline: true,
-            className: "text-xl",
+            sx: { fontSize: "1.25rem" },
           }}
         />
-
-        <div className="h-[70px] flex items-center justify-between">
-          <div id="Actions" className="flex items-center space-x-4">
-
-            {icons.map((Icon, index) => (
-              <Icon key={index} sx={{ color: '#1DA1F2' }}>
-              </Icon>
-            ))}
-
-          </div>
-
-          <PostBtn/>
-          
-        </div></div></div>
+       <button onClick={handlePost}>Post</button>
+      </Box>
+    </Box>
   );
 }
+
 
 export default Tweetbox;
