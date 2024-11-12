@@ -1,6 +1,6 @@
 import React from "react";
 import Sidebar from "./Sidebar";
-import Rightmenu from "./Rightmenu";
+import Rightmenu from "./RightMenu/Rightmenu";
 import Feed from "./Feed";
 
 

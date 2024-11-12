@@ -1,21 +1,24 @@
 import React from 'react';
 import { Button, Typography} from '@mui/material';
 
-const CustomButton = ({Icon, text, onClick, bgColor, textColor, borderRadius = "20px", hoverColor, fontSize="18px", height = "50px", boxShadow = "none" }) => {
+const CustomButton = ({ sx={} , opacity, variant="contained", Icon, text, onClick, bgColor, textColor, width="fullWidth", borderRadius = "20px", hoverColor, fontSize="18px", height = "50px", boxShadow = "none", fontWeight }) => {
  
     const darkwhite = '#d1d1d1';
 
     return (
         <Button
             type="submit"
-            variant="contained"
             startIcon={Icon}
-            fullWidth
             onClick={onClick}
+            variant={variant}
+            
             sx={{
                 backgroundColor: bgColor || '#ececec',
                 color: textColor || 'black',
                 borderRadius: borderRadius,
+                fontWeight: fontWeight,
+                width: width,
+                opacity: opacity,
                 height: height,
                 fontSize: fontSize,
                 textTransform: 'none',
@@ -25,10 +28,11 @@ const CustomButton = ({Icon, text, onClick, bgColor, textColor, borderRadius = "
                     boxShadow: 'none',
                     backgroundColor: hoverColor || bgColor
                     
-                }
+                },
+                ...sx
             }}
         >
-   <Typography sx={{ letterSpacing: '0.5px' }}>{text}</Typography>
+   <Typography sx={{fontSize: fontSize, letterSpacing: '0.5px' }}>{text}</Typography>
         </Button>
     );
 };

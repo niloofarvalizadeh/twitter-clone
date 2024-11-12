@@ -99,7 +99,7 @@
     width: auto;
     height: fit-content;
     background-color: white;
-    grid-template-columns: 23% 46% 31%;
+    grid-template-columns: 23% 48% 28%;
     display: grid;
     grid-template-rows: 1fr;
 
@@ -114,18 +114,14 @@ input::placeholder {
     background-color: white;
 }
 
-.section-2 {
-    background-color: white;
-
-}
 
 .section-3 {
     background-color: white;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin: 0;
+    gap: 10px;
     border-left: 1px solid #EBEEF0;
+    height: auto;
 
 }
 

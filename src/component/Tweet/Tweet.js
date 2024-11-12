@@ -3,8 +3,10 @@ import { Avatar, Card, CardContent, CardMedia, Typography } from '@mui/material'
 import TweetActions from './TweetActions';
 
 const Tweet = () => {
+
     return (
-        <Card sx={{ maxWidth: 600, margin: '20px auto', borderRadius: '3px' }}>
+        <Card sx={{ width: 'full', margin: '20px auto', borderRadius: '3px' }}>
+            
             {/* Header Section: Profile Image and Tweet Details */}
             <CardContent sx={{ display: 'flex', alignItems: 'flex-start' }}>
 

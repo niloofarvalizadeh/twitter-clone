@@ -6,7 +6,6 @@ import { GoBell, GoHash, GoUnread, GoBookmark, GoChecklist, GoPerson } from "rea
 import { CgMoreO } from "react-icons/cg";
 import '../style/main.css';
 import { Link } from 'react-router-dom';
-import PostBtn from './Post-btn';
 
 const menuItems = [
   { icon: <AiFillHome className='h-[30px] w-[30px]' />, text: 'Home', to: '/home' },
@@ -15,11 +14,12 @@ const menuItems = [
   { icon: <GoUnread className='h-[30px] w-[30px]' />, text: 'Messages', to: '/messages' },
   { icon: <GoBookmark className='h-[30px] w-[30px]' />, text: 'Bookmarks', to: '/bookmarks' },
   { icon: <GoChecklist className='h-[30px] w-[30px]' />, text: 'Lists', to: '/lists' },
-  { icon: <GoPerson className='h-[30px] w-[30px]' />, text: 'Profile', to: '/profile' },
+  { icon: <GoPerson className='h-[30px] w-[30px]' />, text: 'Profile', to: '/userprofilepage' },
   { icon: <CgMoreO className='h-[30px] w-[30px]' />, text: 'More', to: '/more' },
 ];
 
 function Sidebar() {
+  
   return (
     <div style={{ margin: 'auto', borderRight: '2px solid #EBEEF0' }}>
       <nav className='sidebar-nav w-full'>
@@ -46,8 +46,6 @@ function Sidebar() {
               Post
             </button>
           </div>
-
-
         </ul>
       </nav>
     </div>

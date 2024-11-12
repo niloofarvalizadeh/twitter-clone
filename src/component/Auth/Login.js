@@ -1,59 +1,55 @@
-
 import React, { useState } from 'react';
-import { Box, Button, Typography, Stack, FormLabel, Modal, TextField, IconButton, Icon } from '@mui/material';
+import { Box, Button, Typography, Stack, FormLabel, Modal, IconButton, Icon } from '@mui/material';
 import { motion } from 'framer-motion';
 import { supabase } from '../../supabaseClient';
 import { AiOutlineLogin } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
-import CustomInput from '../CustomInput';
+import CustomInput from '../CustomComponents/CustomInput';
 
 const Login = ({ isOpen, onClose }) => {
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
     const navigate = useNavigate();
+
+
 
     const handleLogin = async (e) => {
         e.preventDefault();
-    
-        try {
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password,
-            });
-    
-            if (error) {
-                throw error;
-            } else if (data?.user) {
-                console.log('User logged in:', data.user);
-    
-                const { data: profileData, error: profileError } = await supabase
-                    .from('profiles')
-                    .select('*')
-                    .eq('id', data.user.id)
-                    .single();
-    
-                if (profileError) {
-                    console.error('Error fetching profile:', profileError.message);
-                } else {
-                    console.log('User profile:', profileData);
-                }
-    
-                navigate('/home'); 
-            }
-        } catch (error) {
-            setError(error.message || 'Unfortunately, you have not created an account yet.');
-            console.error('Error logging in:', error.message);
+        console.log("Email:", email); 
+        console.log("Password:", password);
+
+        
+
+        const { error } = await supabase.auth.signInWithPassword({
+            email,
+            password
+        });
+
+
+        if (error) {
+            setError("Email or password is incorrect. Try again.");
+            setSuccess('');
+            console.error("Login error:", error.message);
+        } else {
+            setError('');
+            setSuccess("Login was successful!");
+
+            console.log("User is logged in");
+            onClose();
+            navigate('/home');
         }
     };
-    
+
+
 
 
     return (
-        <Modal open={isOpen} onClose={onClose} >
 
+        <Modal open={isOpen} onClose={onClose} >
             <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -89,7 +85,6 @@ const Login = ({ isOpen, onClose }) => {
                     <CustomInput
                         id="login-email"
                         value={email}
-                        // store the data
                         onChange={(e) => setEmail(e.target.value)}
                         fullWidth
                         sx={{
@@ -97,21 +92,17 @@ const Login = ({ isOpen, onClose }) => {
                         }}
                     />
 
-
                     <FormLabel htmlFor="login-password" sx={{ color: 'black' }}>Password</FormLabel>
-
                     <CustomInput
                         id="login-password"
                         value={password}
                         type="password"
-                        // store the data
                         onChange={(e) => setPassword(e.target.value)}
                         fullWidth
                         sx={{
                             input: { backgroundColor: 'white' },
                         }}
                     />
-
                 </Stack>
 
                 <Stack direction="row" justifyContent="center" alignItems="center" mt={3} spacing={2}>
@@ -135,8 +126,3 @@ const Login = ({ isOpen, onClose }) => {
 };
 
 export default Login;
-
-
-
-
-
