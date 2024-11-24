@@ -1,206 +1,232 @@
-import React, { useState, useRef } from "react";
-import { CameraAltOutlined, LocationCityOutlined, CalendarMonthOutlined } from "@mui/icons-material";
-import { Avatar, Box, Typography } from "@mui/material";
-import CustomButton from "../CustomComponents/CustomButton";
+import React, { useState, useEffect, useRef } from "react";
 import { supabase } from "../../supabaseClient";
+import {CircularProgress, Box, Typography, Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import CustomButton from '../CustomComponents/CustomButton';
+import { LocationCityOutlined, } from '@mui/icons-material';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+
 
 
 const MainHeader = () => {
 
-    // storing header state and profile state
-    const [backgroundImage, setBackgroundImage] = useState(null);
-    const [profileImage, setProfileImage] = useState(null);
+    const [profile, setProfile] = useState({
 
-    // ref 
-    const fileInputRef = useRef(null);
-    const profileInputRef = useRef(null);
+        profile_image: '',
+        background_image: '',
+        name: '',
+        bio: '',
+        location: '',
+        website: '',
+        id: '',
+        birth_year: '',
 
-    // Upload image to Supabase Storage
-    const uploadImageToStorage = async (file, path) => {
-        const { data, error } = await supabase.storage
-            .from('profiles')
-            .upload(path, file);
+    });
 
-        if (error) {
-            console.log('Error uploading file:', error);
-            return null;
-        }
-        return data?.path;
-    };
+    const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [isImageLoading, setIsImageLoading] = useState(true);
 
-    // Save profile image data to database
-    const saveProfileImage = async (userId, backgroundImagePath, profileImagePath) => {
+
+    // Get profile information from Supabase
+
+    const fetchProfile = async () => {
+        const user = await supabase.auth.getUser();
+
         const { data, error } = await supabase
-            .from('profile')
-            .upsert({
-                user_id: userId,
-                background_image: backgroundImagePath,
-                profile_image: profileImagePath
-            });
-
-        if (error) {
-            console.log('Error saving profile data:', error);
-        } else {
-            console.log('Profile data saved successfully:', data);
-        }
-    };
-
-    // Get profile data from database
-    const getProfileData = async (userId) => {
-        const { data, error } = await supabase
-            .from('profile')
-            .select('background_image, profile_image')
-            .eq('user_id', userId)
+            .from("profiles")
+            .select("profile_image, background_image, name, bio, location, website, birth_year")
+            .eq("user_id", user.data.user.id)
             .single();
 
         if (error) {
-            console.log('Error fetching profile data:', error);
-            return null;
+            console.error("Error fetching profile:", error);
+        } else {
+            setProfile({
+                profile_image: data?.profile_image || '',
+                background_image: data?.background_image || '',
+                name: data?.name || '',
+                bio: data?.bio || '',
+                location: data?.location || '',
+                website: data?.website || '',
+                birth_year: data?.birth_year || '',
+            });
         }
 
-        return data;
     };
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setProfile((prev) => ({ ...prev, [name]: value }));
+    };
 
-    // Handle header image upload
-   
-
-    const handleImage = async (e) => {
+    const handleFileUpload = async (e, field) => {
         const file = e.target.files[0];
+        if (!file) {
+            alert("No file selected!");
+            return;
+        }
 
-        if (file) {
-            const path = `backgrounds/${Date.now()}-${file.name}`;
-            console.log('Upload Path:', path); 
-            const filePath = await uploadImageToStorage(file, path);
-            if (filePath) {
-                const { data } = supabase.storage.from('profiles').getPublicUrl(filePath);
-                setBackgroundImage(data?.publicUrl);
+        setLoading(true);
+        try {
+            const user = await supabase.auth.getUser();
+            const bucketName = field === 'profile_image' ? 'profile_images' : 'background_images';
+            const filePath = `${user.data.user.id}/${field}-${Date.now()}-${file.name}`;
+            console.log("File Path:", filePath);
+
+
+            // آپلود فایل
+            const { data, error } = await supabase.storage
+                .from(bucketName)
+                .upload(filePath, file, { upsert: true });
+                console.log("Bucket Name:", bucketName);
+
+           
+            if (error) {
+                throw new Error(`Error uploading ${field}: ${error.message}`);
             }
+            // دریافت آدرس عمومی فایل
+            const { data: publicData, error: publicError } = supabase.storage
+                .from(bucketName)
+                .getPublicUrl(filePath);
+                console.log("Public URL Error:", publicError);
+                console.log("Public URL:", publicData?.publicUrl);
+
+
+            if (publicError || !publicData?.publicUrl) {
+                throw new Error(`Failed to retrieve public URL: ${publicError?.message}`);
+            }
+
+            // به‌روزرسانی نمایه کاربر
+            setProfile((prev) => ({ ...prev, [field]: publicData.publicUrl }));
+            alert("File uploaded successfully!");
+        } catch (err) {
+            console.error("File upload error:", err.message || err);
+            alert(`File upload failed: ${err.message || "Unexpected error"}`);
+        } finally {
+            setLoading(false); // اطمینان از بازگرداندن وضعیت بارگذاری
         }
     };
-    
-    const handleProfileImage = async (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = async (event) => {
-                const path = `profiles/${Date.now()}-${file.name}`;
-                const filePath = await uploadImageToStorage(file, path);
-                if (filePath) {
-                    setProfileImage(filePath);
-                }
-            };
-            reader.readAsDataURL(file);
+
+
+    // Send data to Supabase
+    const handleSubmit = async () => {
+        const user = await supabase.auth.getUser();
+
+        const { error } = await supabase
+            .from("profiles")
+            .update(profile)
+            .eq("user_id", user.data.user.id);
+
+        if (error) {
+            console.error("Error updating profile:", error);
+        } else {
+            alert("Profile updated successfully!");
+            setOpen(false);
+            fetchProfile();
         }
     };
-    
 
-        // Handle profile image click
-        const handleDivClick = () => {
-            fileInputRef.current.click();
-        };
+    useEffect(() => {
+        fetchProfile();
+    }, []);
 
-        // Handle profile click
-        const handleProfileImageClick = () => {
-            profileInputRef.current.click();
-        };
+    useEffect(() => {
+        if (profile.profile_image || profile.background_image) {
+            console.log("Profile image or background updated:", profile);
+        }
+    }, [profile.profile_image, profile.background_image]);
+
+    return (
+
+        <Box>
+
+            {/* <div>
+                <img src={profile.profile_image} alt="Profile" />
+                <img src={profile.background_image} alt="Background" />
+            </div> */}
 
 
-        return (
+            <Box sx={{ position: 'relative', width: "full", height: 420, backgroundImage: `url(${profile.background_image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
 
-            <Box sx={{ position: 'relative', width: "full", height: 420 }}>
-
-                {/* Header Background */}
-                <Box
-                    onClick={handleDivClick}
+                {/* Background image Picture */}
+                < Box
                     sx={{
                         height: 200,
                         width: '100%',
                         backgroundColor: '#EBEEF0',
+                        backgroundImage: `url(${profile.background_image})`,
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
                         cursor: 'pointer'
                     }}
                 >
-                    {backgroundImage ? (
-                        <Box
-                            component="img"
-                            src={backgroundImage}
-                            alt="Background"
-                            sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        />
-                    ) : (
-
-                        <CustomButton
-                            variant="outlined"
-                            text={'Choose a pic'}
-                            bgColor='#1DA1F2'
-                            textColor='white'
-                            hoverColor='#005792'
-                            Icon={<CameraAltOutlined />}
-                            width="180px"
+                    {isImageLoading && (
+                        <CircularProgress
+                            sx={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                            }}
                         />
                     )}
+
+                    <img
+                        src={profile.background_image}
+                        alt="Background"
+                        style={{
+                            display: isImageLoading ? 'none' : 'block',
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                        }}
+                        onLoad={() => setIsImageLoading(false)}
+                    />
                 </Box>
 
-                {/* input header */}
-                <input
-                    type="file"
-                    ref={fileInputRef} // Use reference to access file input
-                    style={{ display: "none" }}
-                    accept="image/*" // Only images can be selected
-                    onChange={handleImage}
-                />
-
                 {/* Profile Picture */}
-                <Avatar
-                    onClick={handleProfileImageClick}
-                    src={profileImage || undefined}
+                < Avatar
                     alt="Profile"
+                    src={profile.profile_image || '/default-avatar.png'}
+                    onLoad={() => setIsImageLoading(false)}
+                    style={{ display: isImageLoading ? 'none' : 'block' }}
                     sx={{
                         position: 'absolute',
                         top: 120,
                         left: 20,
                         width: 140,
                         height: 140,
-                        backgroundColor: profileImage ? 'transparent' : '#f3f4f6',
+                        backgroundColor: '#f3f4f6',
                         border: '2px solid #ddd',
                         zIndex: 2,
                         cursor: 'pointer',
                         '&:hover': {
                             boxShadow: '0px 6px 12px rgba(0, 0, 0, 0.3)',
-                            backgroundColor: profileImage ? 'rgba(0, 0, 0, 0.1)' : '#e0e7ff',
+                            backgroundColor: '#e0e7ff',
                             borderColor: '#1DA1F2',
                         },
                     }}
                 >
-                    {!profileImage && (
-                        <CameraAltOutlined sx={{ width: '50%', height: '50%', color: '#1DA1F2' }} />
-                    )}
-                </Avatar>
 
-                <input
-                    type="file"
-                    ref={profileInputRef}
-                    style={{ display: "none" }}
-                    accept="image/*"
-                    onChange={handleProfileImage}
-                />
+                    {isImageLoading && <CircularProgress />}
+                </Avatar >
+
 
                 {/* Profile Information */}
                 <Box sx={{ backgroundColor: '#f7f9fa', height: 220, padding: 2, position: 'relative' }}>
 
                     <Box sx={{ position: 'absolute', bottom: 20, left: 20 }}>
-                        <Typography variant="h6" fontWeight="bold">Davide Biscuso</Typography>
+
+                        <Typography variant="h6" fontWeight="bold">{profile.name}</Typography>
                         <Typography variant="body2" color="text.secondary">@biscuttu</Typography>
-                        <Typography variant="body2">Product Designer</Typography>
+                        <Typography variant="body2">{profile.bio}</Typography>
 
                         <Box sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary', gap: 1, mt: 1 }}>
                             <LocationCityOutlined fontSize="small" />
-                            <Typography variant="body2">London</Typography>
-                            <CalendarMonthOutlined fontSize="small" />
-                            <Typography variant="body2">Joined September 2011</Typography>
+                            <Typography variant="body2">{profile.location}</Typography>
+                            <AttachFileIcon fontSize="small" />
+                            <Typography variant="body2"><a href={profile.website}>{profile.website}</a></Typography>
                         </Box>
 
                         <Box sx={{ mt: 1 }}>
@@ -222,24 +248,108 @@ const MainHeader = () => {
                     </Box>
 
                     <CustomButton
+                        onClick=
+                        {() => setOpen(true)}
                         variant="outlined"
                         text='Edit profile'
                         textColor='white'
                         hoverColor='#233142'
-                        width='110px'
+                        width='150px'
                         height='40px'
                         fontSize='15px'
                         bgColor='#1DA1F2'
                         sx={{
                             position: 'absolute',
-                            bottom: 20,
+                            bottom: 70,
                             right: 20,
+
                         }}
                     />
                 </Box>
+
+                <Dialog open={open} onClose={() => setOpen(false)} disableEnforceFocus disableAutoFocus>
+
+                    <DialogTitle>Edit profile</DialogTitle>
+
+                    <DialogContent>
+                        <Button variant="outlined" component="label" fullWidth>
+                            Upload Background Image
+                            <input type="file" hidden onChange={(e) => handleFileUpload(e, 'background_image')} />
+                        </Button>
+                        {profile.background_image && <img src={profile.background_image} alt="Background Preview" style={{ width: '100%', marginTop: 10 }} />}
+
+                        <Button variant="outlined" component="label" fullWidth sx={{ mt: 2 }}>
+                            Upload Profile Image
+                            <input type="file" hidden onChange={(e) => handleFileUpload(e, 'profile_image')} />
+                        </Button>
+                        {profile.profile_image && <Avatar src={profile.profile_image} alt="Profile Preview" sx={{ width: 100, height: 100, mt: 2 }} />}
+
+
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            name="name"
+                            label="Name"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                            value={profile.name || ''}
+                        />
+                        <TextField
+                            margin="dense"
+                            name="bio"
+                            label="Bio"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                            value={profile.bio || ''}
+                        />
+                        <TextField
+                            margin="dense"
+                            name="location"
+                            label="Location"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                            value={profile.location || ''}
+                        />
+                        <TextField
+                            margin="dense"
+                            name="website"
+                            label="Website"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                            value={profile.website || ''}
+
+                        />
+                        <TextField
+                            margin="dense"
+                            name="birth_year"
+                            label="Year of Birth"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                            value={profile.birth_year || ''}
+                        />
+
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setOpen(false)}>Cancel</Button>
+                        <Button onClick={handleSubmit} disabled={loading}>Save</Button>
+                    </DialogActions>
+                </Dialog>
+
             </Box>
-        );
-    };
+        </Box>
+
+    );
+};
 
 
-    export default MainHeader;
+export default MainHeader;

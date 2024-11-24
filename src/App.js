@@ -4,13 +4,16 @@ import { supabase } from './supabaseClient';
 import Home from './component/Home';
 import Splash from './component/Splash';
 import Auth from './component/Auth/Auth';
+import MainHeader from './component/Profile/MainHeader';
 import './style/main.css';
 import UserProfilePage from './pages/UserProfilePage';
 
 function App() {
+
   const [isSplashVisible, setIsSplashVisible] = useState(true);
   const [session, setSession] = useState(null);
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -54,18 +57,26 @@ function App() {
       {isSplashVisible ? (
         <Splash />
       ) : (
-        <Routes>
-          {session ? (
-            <>
-              <Route path="/home" element={<Home />} />
-              <Route path="/userprofilepage" element={<UserProfilePage />} />
-            </>
-          ) : (
-            <Route path="/" element={<Auth />} />
-          )}
-         {/* Redirect to the Auth page if the path is wrong */}
-          <Route path="*" element={<Auth />} />
-        </Routes>
+
+        <>
+       
+          {/* Routes */}
+
+          <Routes>
+            {session ? (
+              <>
+                <Route path="/home" element={<Home />} />
+                <Route path="/userprofilepage" element={<UserProfilePage />} />
+              </>
+            ) : (
+              <Route path="/" element={<Auth />} />
+            )}
+            {/* Redirect to the Auth page if the path is wrong */}
+            <Route path="*" element={<Auth />} />
+          </Routes>
+
+
+        </>
       )}
     </div>
   );

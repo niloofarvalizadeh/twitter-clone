@@ -6,6 +6,8 @@ import { GoBell, GoHash, GoUnread, GoBookmark, GoChecklist, GoPerson } from "rea
 import { CgMoreO } from "react-icons/cg";
 import '../style/main.css';
 import { Link } from 'react-router-dom';
+import LogoutButton from './Auth/LogoutButton';
+
 
 const menuItems = [
   { icon: <AiFillHome className='h-[30px] w-[30px]' />, text: 'Home', to: '/home' },
@@ -19,7 +21,7 @@ const menuItems = [
 ];
 
 function Sidebar() {
-  
+
   return (
     <div style={{ margin: 'auto', borderRight: '2px solid #EBEEF0' }}>
       <nav className='sidebar-nav w-full'>
@@ -41,10 +43,13 @@ function Sidebar() {
           ))}
 
           <div className="h-[40px] w-[240px] mt-2">
-            <button className="bg-Primary-Blue w-full h-[50px] rounded-full py-2 px-4
+            {/* <button
+                onClick={handleLogout}
+                className="bg-Primary-Blue w-full h-[50px] rounded-full py-2 px-4
              text-white font-bold transition-colors duration-300 ease-in-out hover:bg-[#1664b3]">
-              Post
-            </button>
+                Log Out
+              </button> */}
+            <LogoutButton />
           </div>
         </ul>
       </nav>

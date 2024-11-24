@@ -19,6 +19,8 @@ const Login = ({ isOpen, onClose }) => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+
+        
         console.log("Email:", email); 
         console.log("Password:", password);
 
