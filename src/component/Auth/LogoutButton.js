@@ -9,7 +9,7 @@ function LogoutButton() {
         const { data: authListener } = supabase.auth.onAuthStateChange((event) => {
             if (event === 'SIGNED_OUT') {
                 console.log("User has logged out.");
-                navigate('/login'); // هدایت به صفحه‌ی ورود
+                navigate('/login'); 
             }
         });
 

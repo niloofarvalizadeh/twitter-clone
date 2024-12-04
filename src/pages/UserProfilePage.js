@@ -15,7 +15,6 @@ const UserProfilePage = () => {
 
       <Box
         sx={{
-          bgcolor: 'red',
           display: 'flex',
           justifyContent: 'center',
           height: '100vh',

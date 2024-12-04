@@ -34,5 +34,4 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-// استفاده از Context برای دسترسی به اطلاعات کاربر
 export const useAuth = () => useContext(AuthContext);

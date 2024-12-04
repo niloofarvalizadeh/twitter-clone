@@ -74,7 +74,7 @@ const MainHeader = () => {
             console.log("File Path:", filePath);
 
 
-            // آپلود فایل
+
             const { data, error } = await supabase.storage
                 .from(bucketName)
                 .upload(filePath, file, { upsert: true });
@@ -84,7 +84,7 @@ const MainHeader = () => {
             if (error) {
                 throw new Error(`Error uploading ${field}: ${error.message}`);
             }
-            // دریافت آدرس عمومی فایل
+ 
             const { data: publicData, error: publicError } = supabase.storage
                 .from(bucketName)
                 .getPublicUrl(filePath);
@@ -96,14 +96,14 @@ const MainHeader = () => {
                 throw new Error(`Failed to retrieve public URL: ${publicError?.message}`);
             }
 
-            // به‌روزرسانی نمایه کاربر
+ 
             setProfile((prev) => ({ ...prev, [field]: publicData.publicUrl }));
             alert("File uploaded successfully!");
         } catch (err) {
             console.error("File upload error:", err.message || err);
             alert(`File upload failed: ${err.message || "Unexpected error"}`);
         } finally {
-            setLoading(false); // اطمینان از بازگرداندن وضعیت بارگذاری
+            setLoading(false); 
         }
     };
 

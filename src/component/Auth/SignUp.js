@@ -53,7 +53,7 @@ const SignUp = ({ openLoginModal }) => {
         try {
             console.log('Checking if user already exists in profiles:', user.id);
 
-            // بررسی وجود کاربر در جدول
+
             const { data: existingProfile, error: checkError } = await supabase
                 .from('profiles')
                 .select('user_id')
@@ -64,7 +64,7 @@ const SignUp = ({ openLoginModal }) => {
                 throw new Error(`Error checking user existence: ${checkError.message}`);
             }
 
-            // اگر کاربر از قبل وجود دارد
+
             if (existingProfile) {
                 console.log('User already exists in profiles. Skipping insertion.');
                 return;
@@ -90,11 +90,11 @@ const SignUp = ({ openLoginModal }) => {
                 user_id: user.id,
                 profile_image: "",
                 background_image: "",
-                name: "", // مقدار پیش‌فرض
-                bio: "", // مقدار پیش‌فرض
-                location: "", // مقدار پیش‌فرض
+                name: "",
+                bio: "",
+                location: "",
                 website: "",
-                birth_year: "", // مقدار پیش‌فرض
+                birth_year: "",
             };
 
 
@@ -119,7 +119,7 @@ const SignUp = ({ openLoginModal }) => {
                 if (event === 'SIGNED_IN' && session) {
                     console.log('User signed in:', session.user);
 
-                    // درج کاربر در جدول‌های `users` و `profiles`
+
                     await insertUserToCustomTable(session.user);
                     navigate('/home');
                 } else if (event === 'SIGNED_OUT') {
