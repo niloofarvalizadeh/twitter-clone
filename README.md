@@ -7,8 +7,11 @@ This project is a simple yet functional Twitter clone that replicates key featur
 ### ✨ **Features**
 
 ✔️ Home Page
+
 ✔️ User Authentication (Login & Sign Up)
+
 ✔️ Edit Profile
+
 ✔️ Profile Picture Selection
 
 ### 💻 **Tech Stack**
@@ -31,7 +34,20 @@ This project is a simple yet functional Twitter clone that replicates key featur
 
 ### 📸 **Screenshots**
 
-(Add key project screenshots here. If you have any, upload them to make the README more engaging.)
+### 🏠 Homepage  
+![Homepage Screenshot](screenshots/3.png)  
+
+### 🔑 Login Page  
+![Login Page Screenshot](screenshots/2.png)  
+
+### ✨ Sign-Up Page  
+![Sign-Up Page Screenshot](screenshots/1.png)  
+
+### 👤 User Profile  
+![User Profile Screenshot](screenshots/4.png)  
+
+### 🛠 Edit Profile  
+![Edit Profile Screenshot](screenshots/5.png)
 
 ### ⚙️ **Getting Started**
 
