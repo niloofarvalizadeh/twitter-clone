@@ -72,8 +72,11 @@ npm start
 In the future, I plan to add the following features:
 
 📝 Add New Tweets
+
 📩 Direct Messaging
+
 🔔 Notifications
+
 🌙 Dark Mode
 
 ### 👤 **Author**
