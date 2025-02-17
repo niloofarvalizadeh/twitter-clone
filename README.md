@@ -83,7 +83,7 @@ In the future, I plan to add the following features:
 
 🌟 Niloofar Valizadeh
 
-📧 Email: niloofarvalizadeh2@gmail.com
+📧 Email: niloofar.valizadeh.dev@gmail.com
 
 
 
