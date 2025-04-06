@@ -4,7 +4,7 @@ import { supabase } from './supabaseClient';
 import Home from './component/Home';
 import Splash from './component/Splash';
 import Auth from './component/Auth/Auth';
-import MainHeader from './component/Profile/MainHeader';
+import { LoginModalProvider } from './context/LoginModalContext';
 import './style/main.css';
 import UserProfilePage from './pages/UserProfilePage';
 
@@ -53,15 +53,14 @@ function App() {
   }, [navigate]);
 
   return (
+    <LoginModalProvider>
     <div>
       {isSplashVisible ? (
         <Splash />
       ) : (
-
         <>
-       
-          {/* Routes */}
 
+          {/* Routes */}
           <Routes>
             {session ? (
               <>
@@ -75,10 +74,10 @@ function App() {
             <Route path="*" element={<Auth />} />
           </Routes>
 
-
         </>
       )}
     </div>
+    </LoginModalProvider>
   );
 }
 

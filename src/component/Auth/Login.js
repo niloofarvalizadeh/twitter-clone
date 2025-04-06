@@ -14,20 +14,23 @@ import { AiOutlineLogin } from "react-icons/ai";
 import CloseIcon from "@mui/icons-material/Close";
 import CustomInput from "../CustomComponents/CustomInput";
 import useAuth from "../../hooks/useAuth";
+import { useForm } from "react-hook-form";
 
 const Login = ({ isOpen, onClose }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { login, error } = useAuth();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
-    await login(email, password);
+  const onSubmit = async (data) => {
+    console.log("Login Attempt - Email:", data.email);
+    console.log("Login Attempt - Password:", data.password);
+
+    await login(data.email, data.password);
     onClose();
   };
-
   return (
     <Modal open={isOpen} onClose={onClose}>
       <motion.div
@@ -64,53 +67,59 @@ const Login = ({ isOpen, onClose }) => {
           </IconButton>
         </Box>
 
-        <Stack spacing={2}>
-          <FormLabel htmlFor="login-email" sx={{ color: "black" }}>
-            Email
-          </FormLabel>
-          <CustomInput
-            id="login-email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            fullWidth
-            sx={{
-              input: { backgroundColor: "white" },
-            }}
-          />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack spacing={2}>
+            <FormLabel htmlFor="login-email" sx={{ color: "black" }}>
+              Email
+            </FormLabel>
+            <CustomInput
+              id="login-email"
+              {...register("email", { required: "Please enter email." })}
+              fullWidth
+              sx={{
+                input: { backgroundColor: "white" },
+              }}
+            />
+            {errors.email && (
+              <Typography color="red">{errors.email.message}</Typography>
+            )}
 
-          <FormLabel htmlFor="login-password" sx={{ color: "black" }}>
-            Password
-          </FormLabel>
-          <CustomInput
-            id="login-password"
-            value={password}
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            fullWidth
-            sx={{
-              input: { backgroundColor: "white" },
-            }}
-          />
-        </Stack>
+            <FormLabel htmlFor="login-password" sx={{ color: "black" }}>
+              Password
+            </FormLabel>
+            <CustomInput
+              id="login-password"
+              type="password"
+              {...register("password", { required: "Please enter password." })}
+              fullWidth
+              sx={{
+                input: { backgroundColor: "white" },
+              }}
+            />
+            {errors.password && (
+              <Typography color="red">{errors.password.message}</Typography>
+            )}
+          </Stack>
 
-        <Stack
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-          mt={3}
-          spacing={2}
-        >
-          <Button
-            onClick={handleLogin}
-            sx={{ bgcolor: "#1DA1F2", color: "white", borderRadius: "10px" }}
+          <Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            mt={3}
+            spacing={2}
           >
-            Log in
-          </Button>
+            <Button
+              type="submit"
+              sx={{ bgcolor: "#1DA1F2", color: "white", borderRadius: "10px" }}
+            >
+              Log in
+            </Button>
 
-          <Button onClick={onClose} variant="text" sx={{ color: "gray.500" }}>
-            Close
-          </Button>
-        </Stack>
+            <Button onClick={onClose} variant="text" sx={{ color: "gray.500" }}>
+              Close
+            </Button>
+          </Stack>
+        </form>
 
         {error && (
           <Typography color="red" textAlign="center" mt={2}>

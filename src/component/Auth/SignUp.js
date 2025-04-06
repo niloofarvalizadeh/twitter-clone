@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
 import { Box, Button, Stack, Typography, Divider } from "@mui/material";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../hooks/useAuth";
@@ -6,29 +7,22 @@ import CustomButton from "../CustomComponents/CustomButton";
 import CustomInput from "../CustomComponents/CustomInput";
 import CustomCheckbox from "../CustomComponents/CustomCheckbox";
 
+const initialState = {
+  email: "",
+  password: "",
+  emailError: "",
+};
+
 const SignUp = ({ openLoginModal }) => {
   const { signUp, error, success } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-
-  // Email Validation
-  const emailValidation = (email) => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-    return emailRegex.test(email);
-  };
-
-  const handleSignUp = async (event) => {
-    event.preventDefault();
-
-    if(!emailValidation(email)){
-      setEmailError("Please enter the email format correctly!");
-    return;
-
-    }
-    setEmailError("");
-    await signUp(email, password);
+  const onSubmit = async (data) => {
+    await signUp(data.email, data.password);
   };
 
   return (
@@ -39,7 +33,7 @@ const SignUp = ({ openLoginModal }) => {
       width="50%"
       my={3}
     >
-      <form onSubmit={handleSignUp}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Box
           width={{ xs: "70%", md: "430px" }}
           p={3}
@@ -76,11 +70,17 @@ const SignUp = ({ openLoginModal }) => {
               variant="outlined"
               label="Enter your email"
               fullWidth
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
+              {...register("email", {
+                required: "Please enter your email.",
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+                  message: "Please enter email format correctly",
+                },
+              })}
             />
-            {emailError && <Typography color="red">{emailError}</Typography>}
+            {errors.email && (
+              <Typography color="red">{errors.email.message}</Typography>
+            )}
 
             <Typography
               variant="subtitle1"
@@ -95,10 +95,19 @@ const SignUp = ({ openLoginModal }) => {
               variant="outlined"
               label="Enter your password"
               fullWidth
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              type="password"
+              {...register("password", {
+                required: "Please enter a password.",
+                minLength: {
+                  value: 6,
+                  message: "The password must be at least 6 characters.",
+                },
+              })}
             />
+            {errors.password && (
+              <Typography color="red">{errors.password.message}</Typography>
+            )}
+
             <Box display="flex" alignItems="center">
               <CustomCheckbox />
             </Box>

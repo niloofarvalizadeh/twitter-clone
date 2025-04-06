@@ -1,23 +1,27 @@
-import React from 'react';
-import { TextField } from '@mui/material';
+import React, { forwardRef } from "react";
+import { TextField } from "@mui/material";
 
-const CustomInput = ({ label, value, onChange, borderRadius = "20px", height = '50px' }) => {
+const CustomInput = forwardRef(
+  (
+    { label, value, onChange, borderRadius = "20px", height = "50px", ...rest },
+    ref
+  ) => {
     return (
-        <TextField
-            variant="outlined"
-            label={label}  
-            value={value} 
-            onChange={onChange}  
-            sx={{
-                letterSpacing: '0.5px',
-                '& .MuiOutlinedInput-root': {
-                    borderRadius: borderRadius,
-                    height: height
-                },
-            }}
-        />
+      <TextField
+        variant="outlined"
+        label={label}
+        inputRef={ref}
+        sx={{
+          letterSpacing: "0.5px",
+          "& .MuiOutlinedInput-root": {
+            borderRadius: borderRadius,
+            height: height,
+          },
+        }}
+        {...rest}
+      />
     );
-};
+  }
+);
 
 export default CustomInput;
-
