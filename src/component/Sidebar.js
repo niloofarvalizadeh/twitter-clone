@@ -6,7 +6,6 @@ import { GoBell, GoHash, GoUnread, GoBookmark, GoChecklist, GoPerson } from "rea
 import { CgMoreO } from "react-icons/cg";
 import '../style/main.css';
 import { Link } from 'react-router-dom';
-import LogoutButton from './Auth/LogoutButton';
 
 
 const menuItems = [
@@ -49,7 +48,7 @@ function Sidebar() {
              text-white font-bold transition-colors duration-300 ease-in-out hover:bg-[#1664b3]">
                 Log Out
               </button> */}
-            <LogoutButton />
+            {/* <LogoutButton /> */}
           </div>
         </ul>
       </nav>

@@ -1,20 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
 import {
   Box,
-  Button,
   Typography,
   Stack,
   FormLabel,
   Modal,
   IconButton,
-  Icon,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { AiOutlineLogin } from "react-icons/ai";
 import CloseIcon from "@mui/icons-material/Close";
 import CustomInput from "../CustomComponents/CustomInput";
+import CustomButton from "../CustomComponents/CustomButton";
 import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
+
+const shakeVariant = {
+  initial: { x: 0 },
+  shake: {
+    x: [0, -10, 10, -10, 10, 0],
+    transition: { duration: 0.4 },
+  },
+};
 
 const Login = ({ isOpen, onClose }) => {
   const { login, error } = useAuth();
@@ -24,24 +32,35 @@ const Login = ({ isOpen, onClose }) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    console.log("Login Attempt - Email:", data.email);
-    console.log("Login Attempt - Password:", data.password);
+  const [isLoading, setIsLoading] = useState(false);
+  const [shouldShake, setShouldShake] = useState(false);
 
-    await login(data.email, data.password);
-    onClose();
-  };
+  useEffect(() => {
+    if (error) {
+      setShouldShake(true);
+      setTimeout(() => setShouldShake(false), 500); 
+
+    }
+  }, [error]);
+
+   const onSubmit = async (data) => {
+     setIsLoading(true);
+     await login(data.email, data.password);
+     setIsLoading(false);
+   };
+
+
   return (
     <Modal open={isOpen} onClose={onClose}>
       <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
+        variants={shakeVariant}
+        initial="initial"
+        animate={shouldShake ? "shake" : "initial"}
         style={{
           position: "absolute",
           top: "20%",
           left: "35%",
-          background: "linear-gradient(to bottom right, #D1C4E9, #BBDEFB)",
+          background: "white",
           color: "black",
           borderRadius: "20px",
           boxShadow: 24,
@@ -57,7 +76,7 @@ const Login = ({ isOpen, onClose }) => {
             display="flex"
             alignItems="center"
           >
-            <Icon component={AiOutlineLogin} sx={{ mr: 1 }} /> Login
+            <AiOutlineLogin style={{ marginRight: "8px" }} /> Login
           </Typography>
           <IconButton
             onClick={onClose}
@@ -108,16 +127,36 @@ const Login = ({ isOpen, onClose }) => {
             mt={3}
             spacing={2}
           >
-            <Button
+            <CustomButton
               type="submit"
-              sx={{ bgcolor: "#1DA1F2", color: "white", borderRadius: "10px" }}
-            >
-              Log in
-            </Button>
+              text={
+                isLoading ? (
+                  <CircularProgress size={20} color="inherit" />
+                ) : (
+                  "Log in"
+                )
+              }
+              bgColor="#1DA1F2"
+              hoverColor="#005792"
+              textColor="white"
+              disabled={isLoading}
+              fullWidth
+            />
 
-            <Button onClick={onClose} variant="text" sx={{ color: "gray.500" }}>
-              Close
-            </Button>
+            <CustomButton
+              onClick={onClose}
+              text={"Close"}
+              bgColor="transparent"
+              hoverColor="#d1d1d1"
+              textColor="gray"
+              width="auto"
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#d1d1d1",
+                  boxShadow: "none",
+                },
+              }}
+            />
           </Stack>
         </form>
 
