@@ -80,3 +80,48 @@ input::placeholder {
   content: " *";
   color: red;
 }
+
+.gradient-hover {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  transition: all 0.4s ease-in-out;
+}
+
+.gradient-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, #00f0ff, #ff00c8, #00f0ff);
+  background-size: 400% 400%;
+  animation: gradientMove 6s ease infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.gradient-hover:hover::before {
+  opacity: 0.3;
+}
+
+.gradient-hover:hover .icon {
+  color: #00e0ff;
+  transform: scale(1.15) rotate(2deg);
+  filter: drop-shadow(0 0 8px #00e0ff);
+}
+
+.gradient-hover:hover .text {
+  color: #00e0ff;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
