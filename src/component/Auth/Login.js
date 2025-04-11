@@ -13,8 +13,9 @@ import { AiOutlineLogin } from "react-icons/ai";
 import CloseIcon from "@mui/icons-material/Close";
 import CustomInput from "../CustomComponents/CustomInput";
 import CustomButton from "../CustomComponents/CustomButton";
-import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
+import { useContext } from "react";
+import {AuthContext} from '../../context/AuthContext';
 
 const shakeVariant = {
   initial: { x: 0 },
@@ -25,7 +26,7 @@ const shakeVariant = {
 };
 
 const Login = ({ isOpen, onClose }) => {
-  const { login, error } = useAuth();
+  const { login, error } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -34,21 +35,25 @@ const Login = ({ isOpen, onClose }) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [shouldShake, setShouldShake] = useState(false);
+  
 
   useEffect(() => {
     if (error) {
       setShouldShake(true);
-      setTimeout(() => setShouldShake(false), 500); 
-
+      setTimeout(() => setShouldShake(false), 500);
     }
   }, [error]);
 
-   const onSubmit = async (data) => {
-     setIsLoading(true);
-     await login(data.email, data.password);
-     setIsLoading(false);
-   };
+  const onSubmit = async (data) => {
+    setIsLoading(true);
+    console.log("Attempting to login with data:", data);
+    const success = await login(data.email, data.password);
 
+    if (success) {
+      onClose();
+    }
+    setIsLoading(false);
+  };
 
   return (
     <Modal open={isOpen} onClose={onClose}>

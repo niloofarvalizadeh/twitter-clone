@@ -4,11 +4,12 @@ import { motion } from "framer-motion";
 import { MdOutlineHowToReg } from "react-icons/md";
 import CustomInput from "../CustomComponents/CustomInput";
 import CustomButton from "../CustomComponents/CustomButton";
-import useAuth from "../../hooks/useAuth";
+import { useContext } from "react";
+import { AuthContext}  from "../../context/AuthContext";
 import { useForm } from "react-hook-form";
 
 export default function SignUp ({ openLoginModal }) {
-  const { signUp, error } = useAuth();
+const { user, loading, signUp, error } = useContext(AuthContext);
   const {
     register,
     handleSubmit,

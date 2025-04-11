@@ -1,84 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
-import { supabase } from './supabaseClient';
-import Home from './component/Home';
-import Splash from './component/Splash';
-import Auth from './component/Auth/Auth';
-import { LoginModalProvider } from './context/LoginModalContext';
-import './style/main.css';
-import UserProfilePage from './pages/UserProfilePage';
+import React, { useEffect, useState } from "react";
+import { Route, Routes} from "react-router-dom";
+import Home from "./component/Home";
+import Splash from "./component/Splash";
+import Auth from "./component/Auth/Auth";
+import { LoginModalProvider } from "./context/LoginModalContext";
+import "./style/main.css";
+import UserProfilePage from "./pages/UserProfilePage";
+import { AuthProvider, AuthContext } from "./context/AuthContext";
+import { useContext } from "react";
+
+export default function AppWrapper() {
+  return (
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  );
+}
 
 function App() {
-
   const [isSplashVisible, setIsSplashVisible] = useState(true);
-  const [session, setSession] = useState(null);
-  const navigate = useNavigate();
-
+  const { session, loading } = useContext(AuthContext);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsSplashVisible(false);
     }, 3000);
-
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    const fetchSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      setSession(data?.session || null);
-
-      if (!data?.session) {
-        navigate('/');
-      }
-    };
-
-    fetchSession();
-
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session) {
-        setSession(session);
-        localStorage.setItem("user", JSON.stringify(session.user));
-        navigate('/home');
-      } else if (event === 'SIGNED_OUT') {
-        setSession(null);
-        localStorage.removeItem("user");
-        navigate('/');
-      }
-    });
-
-    return () => {
-      authListener?.subscription?.unsubscribe();
-    };
-  }, [navigate]);
-
   return (
     <LoginModalProvider>
-    <div>
-      {isSplashVisible ? (
+      {isSplashVisible || loading ? (
         <Splash />
       ) : (
-        <>
-
-          {/* Routes */}
-          <Routes>
-            {session ? (
-              <>
-                <Route path="/home" element={<Home />} />
-                <Route path="/userprofilepage" element={<UserProfilePage />} />
-              </>
-            ) : (
-              <Route path="/" element={<Auth />} />
-            )}
-            {/* Redirect to the Auth page if the path is wrong */}
-            <Route path="*" element={<Auth />} />
-          </Routes>
-
-        </>
+        <Routes>
+          <Route path="/" element={<Auth />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/userprofilepage" element={<UserProfilePage />} />
+          <Route path="*" element={<Auth />} />
+        </Routes>
       )}
-    </div>
     </LoginModalProvider>
   );
 }
-
-export default App;

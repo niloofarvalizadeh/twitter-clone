@@ -1,34 +1,46 @@
-import React from 'react';
-import Sidebar from '../component/Sidebar';
-import News from '../component/RightMenu/News';
-import WhoToFollow from '../component/RightMenu/WhoToFollow';
-import UserProfile from '../component/Profile/UserProfile';
-import { Box } from '@mui/material';
-import SearchBar from '../component/RightMenu/SearchBar';
-import Rightmenu from '../component/RightMenu/Rightmenu';
+import React, { useContext, useEffect } from "react";
+import Sidebar from "../component/Sidebar";
+import Rightmenu from "../component/RightMenu/Rightmenu";
+import UserProfile from "../component/Profile/UserProfile";
+import { Box } from "@mui/material";
+import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const UserProfilePage = () => {
+  const { user, loading } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/');
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  
   return (
     <Box className="body">
-
-      <Box className="section-1"><Sidebar /></Box>
+      <Box className="section-1">
+        <Sidebar />
+      </Box>
 
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          height: '100vh',
+          display: "flex",
+          justifyContent: "center",
+          height: "100vh",
         }}
       >
         <UserProfile />
       </Box>
 
       <Box>
-       <Rightmenu/>
+        <Rightmenu />
       </Box>
     </Box>
   );
 };
-
 
 export default UserProfilePage;

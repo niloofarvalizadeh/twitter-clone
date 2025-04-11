@@ -125,3 +125,21 @@ input::placeholder {
     background-position: 0% 50%;
   }
 }
+
+.home-body {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.home-sidebar {
+  width: 20%;
+}
+
+.home-feed {
+  flex: 1;
+}
+
+.home-right-menu {
+  width: 20%;
+}

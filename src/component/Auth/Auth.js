@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Box } from "@mui/material";
 import SignUp from "./SignUp";
 import Login from "./Login";
-import useAuth from "../../hooks/useAuth";
+import {AuthContext} from '../../context/AuthContext';
+import { useContext } from "react";
+
 
 const Auth = () => {
-  const { user } = useAuth();
+  const { user, loading } = useContext(AuthContext);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   
