@@ -10,82 +10,54 @@ import {
   GoPerson,
 } from "react-icons/go";
 import { CgMoreO } from "react-icons/cg";
-import "../style/main.css";
-import { useLocation } from "react-router-dom";
-import { Link } from "react-router-dom";
-import MenuItem from "./MenuItem";
+import { useLocation, Link } from "react-router-dom";
 
 const menuItems = [
-  {
-    icon: <AiFillHome className="h-[30px] w-[30px]" />,
-    text: "Home",
-    to: "/home",
-  },
-  {
-    icon: <GoBell className="h-[30px] w-[30px]" />,
-    text: "Explore",
-    to: "/explore",
-  },
-  {
-    icon: <GoHash className="h-[30px] w-[30px]" />,
-    text: "Notification",
-    to: "/notification",
-  },
-  {
-    icon: <GoUnread className="h-[30px] w-[30px]" />,
-    text: "Messages",
-    to: "/messages",
-  },
-  {
-    icon: <GoBookmark className="h-[30px] w-[30px]" />,
-    text: "Bookmarks",
-    to: "/bookmarks",
-  },
-  {
-    icon: <GoChecklist className="h-[30px] w-[30px]" />,
-    text: "Lists",
-    to: "/lists",
-  },
-  {
-    icon: <GoPerson className="h-[30px] w-[30px]" />,
-    text: "Profile",
-    to: "/userprofilepage",
-  },
-  {
-    icon: <CgMoreO className="h-[30px] w-[30px]" />,
-    text: "More",
-    to: "/more",
-  },
+  { icon: <AiFillHome />, text: "Home", to: "/home" },
+  { icon: <GoBell />, text: "Explore", to: "/explore" },
+  { icon: <GoHash />, text: "Notification", to: "/notification" },
+  { icon: <GoUnread />, text: "Messages", to: "/messages" },
+  { icon: <GoBookmark />, text: "Bookmarks", to: "/bookmarks" },
+  { icon: <GoChecklist />, text: "Lists", to: "/lists" },
+  { icon: <GoPerson />, text: "Profile", to: "/userprofilepage" },
+  { icon: <CgMoreO />, text: "More", to: "/more" },
 ];
 
 export default function Sidebar() {
   const location = useLocation();
-  return (
-    <div className="border-r-2 border-gray-200 p-4">
-      <nav className="sidebar-nav w-full">
-        <ul className="flex flex-col items-start ml-5 gap-2">
-          <li className="custom-li no-hover mb-5">
-            <FaSquareXTwitter className="h-10 w-10 text-black" />
-          </li>
 
-          {menuItems.map((item, index) => (
-            <li
-              key={index}
-              className="mb-3 gradient-hover px-4 py-2 cursor-pointer"
-            >
-              <Link to={item.to} className="flex items-center relative z-10">
+  return (
+    <div className="min-h-screen text-white flex flex-col justify-between border-r border-Dark7">
+      {/* Header */}
+      <div>
+        <div className="flex items-center justify-between px-6 py-4 border-b  border-Dark7-700">
+          <FaSquareXTwitter className="h-10 w-10 text-black" />
+        </div>
+
+        {/* Nav Items */}
+        <nav className="mt-4 space-y-1 px-4">
+          {menuItems.map((item, index) => {
+            const isActive = location.pathname === item.to;
+            return (
+              <Link
+                key={index}
+                to={item.to}
+                className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200 ${
+                  isActive
+                    ? "bg-gray-100 text-black font-semibold"
+                    : "hover:bg-gray-100 text-gray-800"
+                }`}
+              >
                 {React.cloneElement(item.icon, {
-                  className:
-                    "icon h-[28px] w-[28px] transition-all duration-300",
+                  className: "h-[26px] w-[26px]",
+                 
                 })}
-                <span className="text ml-4 text-[17px] font-medium transition-colors duration-300">
-                  {item.text}
-                </span>
+                <span className="text-base">{item.text}</span>
               </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+            );
+          })}
+        </nav>
+      </div>
     </div>
   );
 }

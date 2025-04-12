@@ -2,50 +2,21 @@ import React from "react";
 import { Button, Typography } from "@mui/material";
 
 const CustomButton = ({
-  sx={
-  position: "relative",
-  overflow: "hidden",
-  transition: "all 0.4s ease",
-  transform: "scale(1)",
-  "&:hover": {
-    backgroundColor: "#1DA1F2",
-    transform: "scale(1.07)",
-    boxShadow: "0 8px 24px rgba(29, 161, 242, 0.4)",
-  },
-  "&::before": {
-    content: '""',
-    position: "absolute",
-    top: 0,
-    left: "-75%",
-    width: "50%",
-    height: "100%",
-    background:
-      "linear-gradient(120deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.5) 100%)",
-    transform: "skewX(-20deg)",
-  },
-  "&:hover::before": {
-    animation: "shine 0.8s forwards",
-  },
-  "@keyframes shine": {
-    "0%": { left: "-75%" },
-    "100%": { left: "125%" },
-  },
-},
-
+  sx = {},
   opacity,
   variant = "contained",
   Icon,
   text,
   onClick,
-  bgColor,
-  textColor,
-  width = "fullWidth",
-  borderRadius = "20px",
-  hoverColor,
-  fontSize = "18px",
-  height = "50px",
+  bgColor = "#1DA1F2",
+  textColor = "white",
+  width = "100%",
+  borderRadius = "12px",
+  hoverColor = "#1DA1F2",
+  fontSize = "16px",
+  height = "48px",
   boxShadow = "none",
-  fontWeight,
+  fontWeight = "600",
 }) => {
   return (
     <Button
@@ -53,26 +24,53 @@ const CustomButton = ({
       startIcon={Icon}
       onClick={onClick}
       variant={variant}
+      disableRipple
       sx={{
-        backgroundColor: bgColor || "#ececec",
-        color: textColor || "black",
-        borderRadius: borderRadius,
-        fontWeight: fontWeight,
-        width: width,
-        opacity: opacity,
-        height: height,
-        fontSize: fontSize,
+        position: "relative",
+        overflow: "hidden",
+        backgroundColor: bgColor,
+        color: textColor,
+        borderRadius,
+        fontWeight,
+        width,
+        opacity,
+        height,
+        fontSize,
         textTransform: "none",
-        boxShadow: boxShadow,
-        transition: "background-color 0.3s ease, box-shadow 0.3s ease",
+        boxShadow: "none",
+        transition: "all 0.4s ease",
         "&:hover": {
-          boxShadow: "none",
-          backgroundColor: hoverColor || bgColor,
+          color: "#fff",
+        },
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: "-100%",
+          width: "100%",
+          height: "100%",
+          backgroundColor: hoverColor,
+          transition: "all 0.4s ease-in-out",
+          zIndex: 0,
+        },
+        "&:hover::before": {
+          left: 0,
+        },
+        "& .MuiTypography-root": {
+          position: "relative",
+          zIndex: 1,
+          transition: "color 0.4s ease",
         },
         ...sx,
       }}
     >
-      <Typography sx={{ fontSize: fontSize, letterSpacing: "0.5px" }}>
+      <Typography
+        sx={{
+          fontSize,
+          fontWeight,
+          letterSpacing: "0.5px",
+        }}
+      >
         {text}
       </Typography>
     </Button>

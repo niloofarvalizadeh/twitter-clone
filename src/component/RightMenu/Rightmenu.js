@@ -7,9 +7,10 @@ import {Box} from '@mui/material';
 export default function Rightmenu () {
     return (
         <Box
-            className="section-3">
-            <Box className='pl-3' > <SearchBar /> </Box>
-            <Box className="h-[570px] px-5 w-fit"><News /></Box>
+        className="section-3"
+        >
+            <Box className='px-4' > <SearchBar /> </Box>
+            <Box className="h-[570px]"><News /></Box>
             <Box className='px-5'><WhoToFollow /></Box>
 
         </Box>

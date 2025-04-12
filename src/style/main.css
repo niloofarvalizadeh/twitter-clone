@@ -57,19 +57,16 @@
 }
 
 .body {
-  @apply grid grid-cols-[23%_48%_28%] grid-rows-1 bg-white w-auto h-fit;
+  @apply grid grid-cols-[23%_48%_27%] grid-rows-1 bg-white w-auto h-fit;
 }
 
 input::placeholder {
   @apply text-base text-black;
 }
 
-.section-1 {
-  @apply bg-white;
-}
 
 .section-3 {
-  @apply bg-white flex flex-col gap-2.5 border-l border-Dark7 h-auto;
+  @apply flex flex-col gap-2.5 border-l border-Dark7;
 }
 
 .custom-input {
@@ -141,5 +138,5 @@ input::placeholder {
 }
 
 .home-right-menu {
-  width: 20%;
+  width: 30%;
 }

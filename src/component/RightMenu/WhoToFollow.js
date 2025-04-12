@@ -20,11 +20,10 @@ const WhoToFollow = () => {
   return (
     <Box
       sx={{
-        width: "350px",
+        width:'100%',
         height: "fit-content",
         borderRadius: 2,
         backgroundColor: "#F7F9FA",
-        paddingX: 2,
         marginbottom: "200px",
       }}
     >
@@ -89,7 +88,6 @@ const WhoToFollow = () => {
             transition: "all 0.3s ease",
             borderRadius: "30px",
             px: 2,
-            py: 1,
             "&:hover": {
               transform: "scale(1.07)",
             },

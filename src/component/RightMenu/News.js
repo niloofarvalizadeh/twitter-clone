@@ -88,7 +88,8 @@ export default function News (){
   ];
 
   return (
-    <Box className="h-[457px] w-[350px]">
+
+    <Box className="h-full w-full px-4">
       <Card
         sx={{ borderRadius: "15px", backgroundColor: "#F7F9FA" }}
         elevation={0}
@@ -113,7 +114,6 @@ export default function News (){
               backgroundColor: "transparent",
               transition: "all 0.3s ease",
               borderRadius: "30px",
-              px: 2,
               py: 1,
               "&:hover": {
                 transform: "scale(1.07)",

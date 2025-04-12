@@ -1,7 +1,6 @@
 import Tweetbox from "./Tweet/Tweetbox";
 import HomeHeader from "./HomeHeader";
 import {Box} from "@mui/material";
-// import TimeLine from "./Tweet/TimeLine";
 
 const Feed = () => {
 
@@ -10,7 +9,6 @@ const Feed = () => {
         <Box>
        <HomeHeader/>
        <Tweetbox/>
-       {/* <TimeLine/> */}
         </Box>
     </div>
   );

@@ -5,11 +5,11 @@ import { MdOutlineHowToReg } from "react-icons/md";
 import CustomInput from "../CustomComponents/CustomInput";
 import CustomButton from "../CustomComponents/CustomButton";
 import { useContext } from "react";
-import { AuthContext}  from "../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import { useForm } from "react-hook-form";
 
-export default function SignUp ({ openLoginModal }) {
-const { user, loading, signUp, error } = useContext(AuthContext);
+export default function SignUp({ openLoginModal }) {
+  const { user, loading, signUp, error } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -57,7 +57,9 @@ const { user, loading, signUp, error } = useContext(AuthContext);
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={1.5}>
-            <FormLabel sx={{ color: "black" }}>Email</FormLabel>
+            <FormLabel className="text-[16px] text-slate-600 font-normal whitespace-nowrap">
+              Email
+            </FormLabel>
             <CustomInput
               {...register("email", { required: "Please enter email." })}
               sx={{ input: { backgroundColor: "white" } }}
@@ -66,7 +68,9 @@ const { user, loading, signUp, error } = useContext(AuthContext);
               <Typography color="red">{errors.email.message}</Typography>
             )}
 
-            <FormLabel sx={{ color: "black" }}>Password</FormLabel>
+            <FormLabel className="text-[16px] text-slate-600 font-normal whitespace-nowrap">
+              Password
+            </FormLabel>
             <CustomInput
               type="password"
               {...register("password", { required: "Please enter password." })}
@@ -77,7 +81,7 @@ const { user, loading, signUp, error } = useContext(AuthContext);
             )}
           </Stack>
 
-          <Stack direction="row" alignItems="center" spacing={1} mt={1.5}>
+          <Stack direction="row" alignItems="center" spacing={1} mt={3}>
             <input
               type="checkbox"
               id="terms"
@@ -85,18 +89,35 @@ const { user, loading, signUp, error } = useContext(AuthContext);
                 required: "You must agree to the terms.",
               })}
               style={{
-                width: "18px",
-                height: "18px",
+                width: "20px",
+                height: "20px",
+                appearance: "none",
+                backgroundColor: "#fff",
+                border: "2px solid #1DA1F2",
+                borderRadius: "6px",
+                display: "inline-block",
+                position: "relative",
                 cursor: "pointer",
+                transition: "all 0.3s ease",
+              }}
+              onChange={(e) => {
+                e.target.style.backgroundColor = e.target.checked
+                  ? "#1DA1F2"
+                  : "#fff";
+                e.target.style.borderColor = e.target.checked
+                  ? "#1DA1F2"
+                  : "#1DA1F2";
               }}
             />
+
             <FormLabel
               htmlFor="terms"
               sx={{
-                color: "black",
-                fontSize: "0.9rem",
-                cursor: "pointer",
+                fontSize: "0.85rem",
+                fontStyle: "italic",
+                color: "rgb(55 65 81)",
                 userSelect: "none",
+                cursor: "pointer",
               }}
             >
               I agree with&nbsp;
@@ -106,7 +127,7 @@ const { user, loading, signUp, error } = useContext(AuthContext);
                 rel="noopener noreferrer"
                 style={{
                   color: "#1DA1F2",
-                  fontWeight: "bold",
+                  fontWeight: 600,
                   textDecoration: "underline",
                 }}
               >
@@ -114,6 +135,7 @@ const { user, loading, signUp, error } = useContext(AuthContext);
               </a>
             </FormLabel>
           </Stack>
+
           {errors.terms && (
             <Typography color="red" fontSize="0.8rem" mt={0.5}>
               {errors.terms.message}
@@ -124,53 +146,23 @@ const { user, loading, signUp, error } = useContext(AuthContext);
             <CustomButton
               type="submit"
               text={"Sign Up"}
-              bgColor="#1DA1F2"
-              hoverColor="#0d8de1"
-              textColor="white"
-              fullWidth
-              sx={{
-                position: "relative",
-                overflow: "hidden",
-                transition: "all 0.4s ease",
-                transform: "scale(1)",
-                "&:hover": {
-                  backgroundColor: "#1DA1F2",
-                  transform: "scale(1.07)",
-                  boxShadow: "0 8px 24px rgba(29, 161, 242, 0.4)",
-                },
-                "&::before": {
-                  content: '""',
-                  position: "absolute",
-                  top: 0,
-                  left: "-75%",
-                  width: "50%",
-                  height: "100%",
-                  background:
-                    "linear-gradient(120deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.5) 100%)",
-                  transform: "skewX(-20deg)",
-                },
-                "&:hover::before": {
-                  animation: "shine 0.8s forwards",
-                },
-                "@keyframes shine": {
-                  "0%": { left: "-75%" },
-                  "100%": { left: "125%" },
-                },
-              }}
+              bgColor="#E0E7FF"
+              textColor="#1DA1F2"
+              hoverColor="#1DA1F2"
             />
-            <CustomButton
-              onClick={openLoginModal}
-              text={"Already have an account? Login"}
-              bgColor="transparent"
-              textColor="gray"
-              fullWidth
-              sx={{
-                "&:hover": {
-                  backgroundColor: "#d1d1d1",
-                  boxShadow: "none",
-                },
-              }}
-            />
+
+            <div className="flex items-center gap-2">
+              <p className="text-[16px] text-slate-600 italic font-normal whitespace-nowrap">
+                Already have an account?
+              </p>
+              <CustomButton
+                onClick={openLoginModal}
+                text={"Login"}
+                bgColor="#E0E7FF"
+                textColor="gray"
+                fullwidth
+              />
+            </div>
           </Stack>
         </form>
 
@@ -182,5 +174,4 @@ const { user, loading, signUp, error } = useContext(AuthContext);
       </Box>
     </motion.div>
   );
-};
-
+}

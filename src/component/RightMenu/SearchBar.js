@@ -11,8 +11,9 @@ function SearchBar() {
   const handleSubmit = (event) => {
     event.preventDefault();
   };
+
   return (
-    <form className="max-w-md mx-auto mt-3 w-full h-11" onSubmit={handleSubmit}>
+    <form className="max-w-md mt-3 w-full h-11" onSubmit={handleSubmit}>
       <label
         htmlFor="default-search"
         className="mb-1 text-sm font-medium text-gray-900 sr-only dark:text-white"

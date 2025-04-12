@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./component/Home";
 import Splash from "./component/Splash";
 import Auth from "./component/Auth/Auth";
